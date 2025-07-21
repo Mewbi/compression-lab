@@ -1,0 +1,4 @@
+github.com/dgryski/go-bitstream v0.0.0-20180413035011-3522498ce2c8 h1:akOQj8IVgoeFfBTzGOEQakCYshWD6RNo1M5pivFXt70=
+github.com/dgryski/go-bitstream v0.0.0-20180413035011-3522498ce2c8/go.mod h1:VMaSuZ+SZcx/wljOQKvp5srsbCiKDEb6K2wC4+PiBmQ=
+github.com/dgryski/go-huff v0.0.0-20151109211320-89573a3ee09c h1:4hAVTUnEioXWxzIdjT8UztQBPEP9azLrYQtJFP53gFU=
+github.com/dgryski/go-huff v0.0.0-20151109211320-89573a3ee09c/go.mod h1:fS4jKGORR/ltFo6BZNbsqyW6KAcXeha/+g2KjMbPZSA=

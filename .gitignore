@@ -1,1 +1,4 @@
 compression_test
+data/sensor/*.txt
+data/sensor/*.csv
+*.csv
