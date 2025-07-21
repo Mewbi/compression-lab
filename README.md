@@ -1,18 +1,50 @@
-# compression-lab
-Compression lab for DSA class at UFABC
+# Compression Lab
 
-## Compression Test Program
+This project serves as a small laboratory for experimenting with lossless compression algorithms in the **Data Structures & Algorithms** class at UFABC.  It provides Go implementations of **LZW** and **Huffman** encoders/decoders along with a set of scripts and sample data so their performance can be measured.
 
-This repository now includes a small C++ program that tests LZW and Huffman
-compression on sample PDF and PNG files. To compile and run the program:
+## Data
+
+Benchmark files live under the `data` directory and come from several open sources:
+
+- **Books** – downloaded from the Project Gutenberg catalog using the helper scripts in `scripts/`.
+- **Sensor data** – compressed archives retrieved from the following public datasets:
+  - [MIT Lab Data](https://db.csail.mit.edu/labdata/labdata.html)
+  - [Gas Sensor Array under Dynamic Gas Mixtures](https://archive.ics.uci.edu/dataset/322/gas+sensor+array+under+dynamic+gas+mixtures)
+  - [Historical Hourly Weather Data](https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data)
+- **Images** – a collection of photos from [Lorem Picsum](https://picsum.photos) converted to `jpg`, `png` and `webp` formats.
+
+## Scripts
+
+The `scripts` folder contains utilities for gathering and preparing the datasets:
+
+- `book_download.py` – downloads the top 100 Project Gutenberg books (EPUB and TXT).
+- `book_converter.sh` – converts the downloaded EPUBs to TXT and PDF using `ebook-convert`.
+- `image_download.sh` – fetches 100 random images as JPEG files.
+- `image_converter.sh` – converts those JPEGs to PNG and WEBP via `convert`.
+
+Running these scripts will populate the subdirectories of `data/` accordingly.
+
+## Using the Go program
+
+The entry point for the compression experiments is `main.go`.  It can compress a single file or benchmark all files of a given category.  Build it with:
 
 ```bash
-# build
-g++ -std=c++17 src/*.cpp -o compression_test
-
-# execute on provided samples
-./compression_test data/sample.pdf data/sample.png
+go build -o compression-tester
 ```
 
-The program reports compression time, decompression time, memory usage and
-compression ratio for each algorithm.
+### Single file test
+
+```bash
+./compression-tester -file path/to/file -type lzw      # or huffman
+```
+
+### Benchmark mode
+
+```bash
+./compression-tester -benchmark books
+./compression-tester -benchmark sensors-data
+./compression-tester -benchmark images
+```
+
+Benchmark runs output per-file statistics and also generate a CSV report summarizing the results.
+
