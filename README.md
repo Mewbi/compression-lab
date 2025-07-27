@@ -13,6 +13,18 @@ Benchmark files live under the `data` directory and come from several open sourc
   - [Historical Hourly Weather Data](https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data)
 - **Images** – a collection of photos from [Lorem Picsum](https://picsum.photos) converted to `jpg`, `png` and `webp` formats.
 
+### Observation
+
+The data from `Gas Sensor Array under Dynamic Gas Mixtures` are two big files that can't be directly upload to git (even compressed).
+
+In that way, the two files from this source (`ethylene_CO.txt` and `ethylene_methane.txt`) are splitted in multiple files that can be
+recovered using the following commands:
+
+```sh
+cat data/sensor/ethylene_CO_part_* > data/sensor/ethylene_CO.txt
+cat data/sensor/ethylene_methane_part_* > data/sensor/ethylene_methane.txt
+```
+
 ## Scripts
 
 The `scripts` folder contains utilities for gathering and preparing the datasets:
@@ -35,16 +47,15 @@ go build -o compression-tester
 ### Single file test
 
 ```bash
-./compression-tester -file path/to/file -type lzw      # or huffman
+./compression-lab -file path/to/file -type lzw      # or huffman
 ```
 
 ### Benchmark mode
 
 ```bash
-./compression-tester -benchmark books
-./compression-tester -benchmark sensors-data
-./compression-tester -benchmark images
+./compression-lab -benchmark books
+./compression-lab -benchmark sensors-data
+./compression-lab -benchmark images
 ```
 
 Benchmark runs output per-file statistics and also generate a CSV report summarizing the results.
-
