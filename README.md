@@ -1,8 +1,8 @@
-# Compression Lab
+# 🗜️ Compression Lab
 
 This project serves as a small laboratory for experimenting with lossless compression algorithms in the **Data Structures & Algorithms** class at UFABC.  It provides Go implementations of **LZW** and **Huffman** encoders/decoders along with a set of scripts and sample data so their performance can be measured.
 
-## Data
+## 📂 Data
 
 Benchmark files live under the `data` directory and come from several open sources:
 
@@ -13,7 +13,7 @@ Benchmark files live under the `data` directory and come from several open sourc
   - [Historical Hourly Weather Data](https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data)
 - **Images** – a collection of photos from [Lorem Picsum](https://picsum.photos) converted to `jpg`, `png` and `webp` formats.
 
-### Observation
+### 🔍 Observation
 
 The data from `Gas Sensor Array under Dynamic Gas Mixtures` are two big files that can't be directly upload to git (even compressed).
 
@@ -25,7 +25,7 @@ cat data/sensor/ethylene_CO_part_* > data/sensor/ethylene_CO.txt
 cat data/sensor/ethylene_methane_part_* > data/sensor/ethylene_methane.txt
 ```
 
-## Scripts
+## 🛠️ Scripts
 
 The `scripts` folder contains utilities for gathering and preparing the datasets:
 
@@ -36,7 +36,7 @@ The `scripts` folder contains utilities for gathering and preparing the datasets
 
 Running these scripts will populate the subdirectories of `data/` accordingly.
 
-## Using the Go program
+## 🚀 Using the Go program
 
 The entry point for the compression experiments is `main.go`.  It can compress a single file or benchmark all files of a given category.  Build it with:
 
@@ -44,13 +44,35 @@ The entry point for the compression experiments is `main.go`.  It can compress a
 go build -o compression-tester
 ```
 
-### Single file test
+### 🔎 Single file test
 
 ```bash
 ./compression-lab -file path/to/file -type lzw      # or huffman
 ```
+For large text files you can enable **splitted** mode to process the input line by line and save results to `results/<file>_splitted_<type>.csv`.
 
-### Benchmark mode
+```bash
+./compression-lab -file path/to/file -type lzw -splitted
+```
+
+Example output:
+
+```text
+📁 File: data/sensor/humidity.csv
+📦 Type: LZW
+📏 Original Size: 9075077
+📉 Compressed Size: 2318213
+📊 Compression Ratio: 25.54%
+⏱️ Encode Time: 104.371078ms
+⏱️ Decode Time: 74.844891ms
+✅ Correct: true
+🎲 Shannon Entropy: 3.3087
+🎲 Max Entropy: 5.8826
+🔁 Repetition Factor: 0.9999
+```
+
+
+### 🏁 Benchmark mode
 
 ```bash
 ./compression-lab -benchmark books
