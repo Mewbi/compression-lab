@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io/fs"
 	"log"
@@ -21,6 +22,33 @@ func RunSingleTest(file string, cType compressor.CompressionType) {
 	res := run(file, data, cType)
 
 	res.Print()
+}
+
+func RunSingleTestSplitted(file string, cType compressor.CompressionType) {
+	f, err := os.Open(file)
+	if err != nil {
+		log.Fatal("Error opening file:", err)
+	}
+	defer f.Close()
+
+	lineNumber := 1
+	var results Results
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := scanner.Bytes()
+		res := run(fmt.Sprintf("%s_%d", f.Name(), lineNumber), line, cType)
+		lineNumber++
+		results.results = append(results.results, res)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal("Error reading file:", err)
+	}
+
+	fName := filepath.Base(f.Name())
+	ext := filepath.Ext(fName)
+	filename := strings.TrimSuffix(fName, ext)
+	results.SaveResultsCSV(fmt.Sprintf("%s_splitted_%s", filename, cType.String()))
 }
 
 func RunBenchmark(bType string) {
@@ -97,7 +125,7 @@ func runFiles(path string, files []fs.DirEntry, resultFile string) {
 			ext := strings.ToLower(filepath.Ext(f.Name()))
 
 			// Skip compressed files
-			if ext == ".zip" || ext == ".gz" {
+			if ext == ".zip" || ext == ".gz" || ext == "" {
 				continue
 			}
 
@@ -149,6 +177,8 @@ func run(file string, data []byte, cType compressor.CompressionType) Result {
 	res.CompSize = len(c.CompressedData)
 	res.CompRatio = float64(res.CompSize) / float64(res.OrigSize) * 100
 	res.Correct = string(decomp) == string(data)
+	res.ShannonEntropy, res.MaxEntropy = shannonEntropy(data)
+	res.RepetitionFactor = repetitionFactor(data, _REPETITION_FACTOR_K)
 
 	return res
 }
